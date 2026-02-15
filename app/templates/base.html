@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}Finance Manager{% endblock %}</title>
+    <link rel="stylesheet" href="/static/css/style.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+
+<div class="container">
+
+    <!-- Sidebar -->
+    <aside class="sidebar">
+        <h2>Finance</h2>
+        <nav>
+            <a href="/dashboard">Dashboard</a>
+            <a href="/logout">Sair</a>
+        </nav>
+    </aside>
+
+    <!-- Conteúdo principal -->
+    <main class="main-content">
+
+        <header class="topbar">
+            <h1>{% block header %}{% endblock %}</h1>
+        </header>
+
+        <section class="content">
+            {% block content %}{% endblock %}
+        </section>
+
+    </main>
+
+</div>
+
+</body>
+</html>

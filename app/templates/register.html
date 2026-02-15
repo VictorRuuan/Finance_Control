@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>Cadastro</title>
+    <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body class="auth-body">
+
+<div class="auth-container">
+    <h2>Criar Conta</h2>
+
+    {% if erro %}
+        <p class="erro">{{ erro }}</p>
+    {% endif %}
+
+    <form method="post" action="/register">
+
+        <input type="text" name="nome" placeholder="Nome" required>
+        <input type="email" name="email" placeholder="Email" required>
+        <input type="password" name="senha" placeholder="Senha" required>
+        <button type="submit">Cadastrar</button>
+    </form>
+
+    <p>Já tem conta? <a href="/login">Entrar</a></p>
+</div>
+
+</body>
+</html>

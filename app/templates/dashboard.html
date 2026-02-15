@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+
+{% block title %}Dashboard{% endblock %}
+{% block header %}Dashboard Financeiro{% endblock %}
+
+{% block content %}
+
+<div class="cards">
+
+    <div class="card receita">
+        <h3>Receitas</h3>
+        <p>R$ {{ total_receitas or 0 }}</p>
+    </div>
+
+    <div class="card despesa">
+        <h3>Despesas</h3>
+        <p>R$ {{ total_despesas or 0 }}</p>
+    </div>
+
+    <div class="card saldo">
+        <h3>Saldo</h3>
+        <p>R$ {{ saldo or 0 }}</p>
+    </div>
+
+</div>
+
+<div class="grafico">
+    <canvas id="graficoMensal"></canvas>
+</div>
+
+<script>
+const ctx = document.getElementById('graficoMensal');
+
+new Chart(ctx, {
+    type: 'bar',
+    data: {
+        labels: {{ labels | safe }},
+        datasets: [{
+            label: 'Gastos',
+            data: {{ valores | safe }},
+            borderWidth: 1
+        }]
+    }
+});
+</script>
+
+{% endblock %}
