@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+
+{% block title %}Nova Transação{% endblock %}
+{% block header %}Adicionar Transação{% endblock %}
+
+{% block content %}
+
+<form method="post" action="/transactions/add" class="form-transacao">
+
+    <div class="form-group">
+        <label for="tipo">Tipo</label>
+        <select name="tipo" id="tipo" required>
+            <option value="">Selecione o Tipo</option>
+            <option value="receita">Receita</option>
+            <option value="despesa">Despesa</option>
+        </select>
+    </div>
+
+    <div class="form-group">
+        <label for="descricao">Descrição</label>
+        <input type="text" name="descricao" id="descricao" placeholder="Descrição" required>
+    </div>
+
+    <div class="form-group">
+        <label for="valor">Valor (R$)</label>
+        <input type="number" step="0.01" name="valor" id="valor" placeholder="0.00" required>
+    </div>
+
+    <div class="form-group">
+        <label for="categoria">Categoria</label>
+        <input type="text" name="categoria" id="categoria" placeholder="Ex: Alimentação, Transporte" required>
+    </div>
+
+    <div class="form-group">
+        <label for="data">Data</label>
+        <input type="date" name="data" id="data" required>
+    </div>
+
+    <div class="form-buttons">
+        <button type="submit" class="btn-save">Salvar</button>
+        <a href="/transactions" class="btn-cancel">Cancelar</a>
+    </div>
+
+</form>
+
+{% endblock %}

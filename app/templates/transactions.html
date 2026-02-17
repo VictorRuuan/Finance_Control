@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+
+{% block title %}Transações{% endblock %}
+{% block header %}Gerenciar Transações{% endblock %}
+
+{% block content %}
+
+<!-- BOTÃO ADICIONAR -->
+<div style="margin-bottom: 25px;">
+    <a href="/transactions/new" class="btn-add">+ Adicionar Transação</a>
+</div>
+
+<!-- TABELA -->
+<div class="lista-transacoes">
+    <table>
+        <thead>
+            <tr>
+                <th>Tipo</th>
+                <th>Descrição</th>
+                <th>Categoria</th>
+                <th>Valor</th>
+                <th>Data</th>
+                <th style="text-align: center;">Ações</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% if transacoes %}
+                {% for t in transacoes %}
+                <tr>
+                    <td>
+                        <span style="display: inline-block; padding: 6px 12px; border-radius: 6px; font-weight: 600; font-size: 13px; {% if t.tipo == 'receita' %}background: #d1fae5; color: #065f46;{% else %}background: #fee2e2; color: #7f1d1d;{% endif %}">
+                            {{ t.tipo|upper }}
+                        </span>
+                    </td>
+                    <td>{{ t.descricao }}</td>
+                    <td>{{ t.categoria }}</td>
+                    <td class="{% if t.tipo == 'receita' %}valor-receita{% else %}valor-despesa{% endif %}">
+                        R$ {{ "%.2f"|format(t.valor) }}
+                    </td>
+                    <td>{{ t.data }}</td>
+                    <td style="text-align: center;">
+                        <a href="/transactions/edit/{{ t.id }}" class="btn-edit">✏️ Editar</a>
+                        <a href="/transactions/delete/{{ t.id }}" class="btn-delete" onclick="return confirm('Tem certeza que deseja excluir?')">🗑️ Excluir</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            {% else %}
+            <tr>
+                <td colspan="6" style="text-align: center; padding: 40px; color: #94a3b8;">
+                    <p style="margin: 0; font-size: 16px;">Nenhuma transação cadastrada.</p>
+                    <p style="margin: 8px 0 0 0; font-size: 14px;"><a href="/transactions/new" style="color: #2563eb; text-decoration: none;">Adicione uma agora →</a></p>
+                </td>
+            </tr>
+            {% endif %}
+        </tbody>
+    </table>
+</div>
+
+{% endblock %}

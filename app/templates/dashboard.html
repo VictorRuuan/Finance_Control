@@ -9,39 +9,126 @@
 
     <div class="card receita">
         <h3>Receitas</h3>
-        <p>R$ {{ total_receitas or 0 }}</p>
+        <p>R$ {{ "%.2f"|format(total_receitas) }}</p>
     </div>
 
     <div class="card despesa">
         <h3>Despesas</h3>
-        <p>R$ {{ total_despesas or 0 }}</p>
+        <p>R$ {{ "%.2f"|format(total_despesas) }}</p>
     </div>
 
     <div class="card saldo">
         <h3>Saldo</h3>
-        <p>R$ {{ saldo or 0 }}</p>
+        <p>R$ {{ "%.2f"|format(saldo) }}</p>
     </div>
 
 </div>
 
-<div class="grafico">
-    <canvas id="graficoMensal"></canvas>
+<!-- GRÁFICOS -->
+<div class="graficos-container">
+    
+    <!-- Gráfico 1: Resumo Receitas vs Despesas -->
+    <div class="grafico">
+        <h3 style="margin-top: 0; color: #1e293b;">Receitas vs Despesas</h3>
+        <canvas id="graficoResumo"></canvas>
+    </div>
+
+    <!-- Gráfico 2: Receitas e Despesas por Categoria -->
+    {% if categorias %}
+    <div class="grafico">
+        <h3 style="margin-top: 0; color: #1e293b;">Comparação por Categoria</h3>
+        <canvas id="graficoCategoria"></canvas>
+    </div>
+    {% endif %}
+
 </div>
 
 <script>
-const ctx = document.getElementById('graficoMensal');
-
-new Chart(ctx, {
-    type: 'bar',
+// Gráfico 1: Resumo Receitas vs Despesas
+const ctxResumo = document.getElementById('graficoResumo').getContext('2d');
+new Chart(ctxResumo, {
+    type: 'doughnut',
     data: {
-        labels: {{ labels | safe }},
+        labels: {{ grafico_resumo_labels | safe }},
         datasets: [{
-            label: 'Gastos',
-            data: {{ valores | safe }},
-            borderWidth: 1
+            data: {{ grafico_resumo_valores | safe }},
+            backgroundColor: [
+                '#16a34a',
+                '#dc2626'
+            ],
+            borderColor: [
+                '#15803d',
+                '#b91c1c'
+            ],
+            borderWidth: 2
         }]
+    },
+    options: {
+        responsive: true,
+        plugins: {
+            legend: {
+                position: 'bottom',
+                labels: {
+                    padding: 15,
+                    font: {
+                        size: 14
+                    }
+                }
+            }
+        }
     }
 });
+
+// Gráfico 2: Categorias com Receitas e Despesas
+{% if categorias %}
+const ctxCategoria = document.getElementById('graficoCategoria').getContext('2d');
+new Chart(ctxCategoria, {
+    type: 'bar',
+    data: {
+        labels: {{ categorias | safe }},
+        datasets: [
+            {
+                label: 'Receitas',
+                data: {{ valores_receitas | safe }},
+                backgroundColor: '#16a34a',
+                borderColor: '#15803d',
+                borderWidth: 1
+            },
+            {
+                label: 'Despesas',
+                data: {{ valores_despesas | safe }},
+                backgroundColor: '#dc2626',
+                borderColor: '#b91c1c',
+                borderWidth: 1
+            }
+        ]
+    },
+    options: {
+        responsive: true,
+        scales: {
+            y: {
+                beginAtZero: true,
+                ticks: {
+                    callback: function(value) {
+                        return 'R$ ' + value.toFixed(2);
+                    }
+                }
+            }
+        },
+        plugins: {
+            legend: {
+                position: 'top',
+                labels: {
+                    padding: 15,
+                    font: {
+                        size: 14
+                    }
+                }
+            }
+        }
+    }
+});
+{% endif %}
 </script>
 
 {% endblock %}

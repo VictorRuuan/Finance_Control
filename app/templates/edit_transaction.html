@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+
+{% block title %}Editar Transação{% endblock %}
+{% block header %}Editar Transação{% endblock %}
+
+{% block content %}
+
+<form method="post" action="/transactions/update/{{ transacao.id }}" class="form-transacao">
+
+    <div class="form-group">
+        <label for="tipo">Tipo</label>
+        <select name="tipo" id="tipo" required>
+            <option value="receita" {% if transacao.tipo == 'receita' %}selected{% endif %}>Receita</option>
+            <option value="despesa" {% if transacao.tipo == 'despesa' %}selected{% endif %}>Despesa</option>
+        </select>
+    </div>
+
+    <div class="form-group">
+        <label for="descricao">Descrição</label>
+        <input type="text" name="descricao" id="descricao" placeholder="Descrição" value="{{ transacao.descricao }}" required>
+    </div>
+
+    <div class="form-group">
+        <label for="valor">Valor (R$)</label>
+        <input type="number" step="0.01" name="valor" id="valor" placeholder="Valor" value="{{ transacao.valor }}" required>
+    </div>
+
+    <div class="form-group">
+        <label for="categoria">Categoria</label>
+        <input type="text" name="categoria" id="categoria" placeholder="Categoria" value="{{ transacao.categoria }}" required>
+    </div>
+
+    <div class="form-group">
+        <label for="data">Data</label>
+        <input type="date" name="data" id="data" value="{{ transacao.data }}" required>
+    </div>
+
+    <div class="form-buttons">
+        <button type="submit" class="btn-save">Atualizar</button>
+        <a href="/transactions" class="btn-cancel">Cancelar</a>
+    </div>
+
+</form>
+
+{% endblock %}
